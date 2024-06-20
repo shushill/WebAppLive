@@ -15,7 +15,7 @@ public class projectController {
 
     @GetMapping("/login")
     public String login() {
-        return "login woow !! its running";
+        return "login now";
     }
 
     @GetMapping("/register")
