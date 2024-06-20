@@ -28,26 +28,24 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                script {
-                    dir('/var/lib/jenkins/workspace/jenkins-webapplive/project') {
-                        // Find all .war files in the directory
-                        def warFiles = findFiles(glob: '**/*.war')
+                  steps {
+                      script {
+                          // Find the .war file using shell command
+                          def warFile = sh(script: 'find /var/lib/jenkins/workspace/jenkins-webapplive/project -name "*/*.war" | head -n 1', returnStdout: true).trim()
 
-                        if (warFiles.length > 0) {
-                            // Copy WAR file to Tomcat webapp folder
-                            sh """
-                                cp ${warFiles[0].path} ${env.TOMCAT_WEBAPP_DIR}
-                            """
-                            echo "Deployed WAR file: ${warFiles[0].path}"
-                        } else {
-                            error "No WAR file found"
-                        }
-                    }
-                }
-            }
-        }
-    }
+                          if (warFile) {
+                              // Copy WAR file to Tomcat webapp folder
+                              sh """
+                                  cp ${warFile} ${env.TOMCAT_WEBAPP_DIR}
+                              """
+                              echo "Deployed WAR file: ${warFile}"
+                          } else {
+                              error "No WAR file found"
+                          }
+                      }
+                  }
+              }
+          }
 
     post {
         success {
