@@ -10,7 +10,7 @@ public class projectController {
 
     @GetMapping
     public String name(){
-        return "Hello Guys!! how are you";
+        return "Hello Guys!! how are you!!  Hello internet";
     }
 
     @GetMapping("/login")
