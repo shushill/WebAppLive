@@ -26,11 +26,6 @@ pipeline {
                          sh 'mvn clean'
                          sh 'mvn install'
                    }
-//                       script {
-//                           sh 'cd project/'
-//                           sh 'mvn clean'
-//                           sh 'mvn install'
-//                       }
                   }
               }
 
@@ -38,22 +33,22 @@ pipeline {
                steps {
 
 
-                     dir('/var/lib/jenkins/workspace/jenkins-webapplive/project') {
+                 dir('/var/lib/jenkins/workspace/jenkins-webapplive/project') {
 
-                     echo 'Deployment stage '
-                        // Find all .war files in the directory
-                        def warFiles = findFiles(glob: '**/*.war')
 
-                        if (warFiles.length > 0) {
-                            // Copy WAR file to Tomcat webapp folder
-                            sh """
-                                cp ${warFiles[0].path} ${env.TOMCAT_WEBAPP_DIR}
-                            """
-                            echo "File name is ${warFiles[0].path}"
-                        } else {
-                            error "No WAR file found"
-                        }
+                    // Find all .war files in the directory
+                    def warFiles = findFiles(glob: '**/*.war')
+
+                    if (warFiles.length > 0) {
+                        // Copy WAR file to Tomcat webapp folder
+                        sh """
+                            cp ${warFiles[0].path} ${env.TOMCAT_WEBAPP_DIR}
+                        """
+                       // echo "File name is ${warFiles[0].path}"
+                    } else {
+                        error "No WAR file found"
                     }
+                }
 
 
              }
