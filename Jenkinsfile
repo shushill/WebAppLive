@@ -20,7 +20,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${env.GIT_BRANCH}", url: "${env.GIT_REPO_URL}"
+                git branch: 'master', url: 'https://github.com/shushill/WebAppLive.git', credentialsId: 'github-token'
             }
         }
 
