@@ -31,7 +31,7 @@ pipeline {
                   steps {
                       script {
                           // Find the .war file using shell command
-                          def warFile = sh(script: 'find /var/lib/jenkins/workspace/jenkins-webapplive/project -name "*/*.war" | head -n 1', returnStdout: true).trim()
+                          def warFile = sh(script: 'find /var/lib/jenkins/workspace/jenkins-webapplive/project/target/ -name "*.war" | head -n 1', returnStdout: true).trim()
 
                           if (warFile) {
                               // Copy WAR file to Tomcat webapp folder
