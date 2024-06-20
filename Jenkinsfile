@@ -43,6 +43,7 @@ pipeline {
                                 sh """
                                     cp ${warFiles[0].path} ${env.TOMCAT_WEBAPP_DIR}
                                 """
+                                echo "File name is ${warFiles[0].path}"
                             } else {
                                 error "No WAR file found"
                             }
@@ -53,10 +54,10 @@ pipeline {
 
         post {
             success {
-                echo 'Build and deployment successful!'
+                echo ' successful! Build and deployment'
             }
             failure {
-                echo 'Build or deployment failed.'
+                echo 'Failed Build or deployment'
             }
         }
 }
