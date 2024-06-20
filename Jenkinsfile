@@ -37,6 +37,7 @@ pipeline {
         stage('Deploy') {
                     steps {
                         script {
+                            echo 'Deployment stage details '
                             def warFiles = findFiles(glob: '**/*.war')
                             if (warFiles.length > 0) {
                                 // Copy WAR file to Tomcat webapp folder
