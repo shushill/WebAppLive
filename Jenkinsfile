@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Set your environment variables here
-        GIT_REPO_URL = 'https://github.com/your-username/your-repo.git'
-        GIT_BRANCH = 'main'
+//         GIT_REPO_URL = 'https://github.com/your-username/your-repo.git'
+//         GIT_BRANCH = 'main'
 //         TOMCAT_SERVER = 'your-tomcat-server'
 //         TOMCAT_USER = 'your-tomcat-user'
 //         TOMCAT_PASSWORD = 'your-tomcat-password'
