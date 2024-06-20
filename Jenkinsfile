@@ -36,7 +36,7 @@ pipeline {
                           if (warFile) {
                               // Copy WAR file to Tomcat webapp folder
                               sh """
-                                  cp ${warFile} ${env.TOMCAT_WEBAPP_DIR}
+                                 sudo cp ${warFile} ${env.TOMCAT_WEBAPP_DIR}
                               """
                               echo "Deployed WAR file: ${warFile}"
                           } else {
