@@ -15,16 +15,22 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/shushill/WebAppLive.git', credentialsId: 'github-token'
+                 checkout scm
             }
         }
 
       stage('Build') {
                   steps {
-                      script {
-                          sh 'cd project/'
-                          sh 'mvn clean'
-                          sh 'mvn install'
-                      }
+
+                   dir('project') {
+                         sh 'mvn clean'
+                         sh 'mvn install'
+                   }
+//                       script {
+//                           sh 'cd project/'
+//                           sh 'mvn clean'
+//                           sh 'mvn install'
+//                       }
                   }
               }
 
