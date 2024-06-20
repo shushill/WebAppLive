@@ -22,7 +22,7 @@ pipeline {
             steps {
                 dir('project') {
                     sh 'mvn clean'
-                    sh 'mvn install'
+                    sh 'mvn package'
                 }
             }
         }
