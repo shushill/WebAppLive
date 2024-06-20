@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    environment {
+    //environment {
         // Set your environment variables here
 //         GIT_REPO_URL = 'https://github.com/your-username/your-repo.git'
 //         GIT_BRANCH = 'main'
@@ -10,7 +10,7 @@ pipeline {
 //         TOMCAT_PASSWORD = 'your-tomcat-password'
 //         TOMCAT_WEBAPP_DIR = '/path/to/tomcat/webapps'
 //         BUILD_TOOL = 'maven' // or 'gradle'
-    }
+    //}
 
     triggers {
         // Trigger build on push to GitHub repository
