@@ -9,6 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<packaging>war</packaging>
+<!--	<packaging>jar</packaging>-->
 	<groupId>com.sushil</groupId>
 	<artifactId>project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -80,7 +81,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<finalName>ROOT</finalName>
 		<plugins>
