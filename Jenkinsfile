@@ -12,6 +12,7 @@ pipeline {
        POSTGRES_DB='mydb'
        POSTGRES_USER='postgres'
        POSTGRES_PASSWORD='postgres'
+       POSTGRES_VOLUME = 'postgres-data'
         CONTAINER_NAME = "springboot-app"
          PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER.toInteger() - 1}"
     }
