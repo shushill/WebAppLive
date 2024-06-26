@@ -23,7 +23,20 @@ pipeline {
             }
         }
 
+        stage('Just checking') {
+            when {
+                changeset "Scripts/"
+            }
+            steps {
+                script {
+                    // Commands to build and deploy App 1
+                    sh 'echo "This is working"'
+                }
+            }
+        }
+
         stage('Build') {
+
             steps {
                 dir('project') {
                     sh 'mvn clean'
