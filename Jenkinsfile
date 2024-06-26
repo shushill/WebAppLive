@@ -139,6 +139,7 @@ pipeline {
                     -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
                     -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
                     -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
+                    -e spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect \
                     --link ${POSTGRES_CONTAINER}:postgres \
                     ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
                 }
