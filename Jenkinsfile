@@ -25,7 +25,7 @@ pipeline {
 
         stage('Just checking') {
             when {
-                changeset "/var/lib/jenkins/workspace/Jenkins-Docker/Scripts/"
+                changeset "./Scripts/"
             }
             steps {
                 script {
