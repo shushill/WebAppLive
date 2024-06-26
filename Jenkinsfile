@@ -47,16 +47,17 @@ pipeline {
             steps {
                 script {
                     dir('Database') {
-//                        docker.build("${POSTGRES_IMAGE}", ".")
-                            sh 'echo "Database folder"'
+                      sh 'echo "Database folder"'
+                       docker.build("${POSTGRES_IMAGE}", ".")
+
                    }
-//                    sh '''
-//                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
-//                        -e POSTGRES_DB=${POSTGRES_DB} \
-//                        -e POSTGRES_USER=${POSTGRES_USER} \
-//                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
-//                        ${POSTGRES_IMAGE}
-//                    '''
+                   sh '''
+                       docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
+                       -e POSTGRES_DB=${POSTGRES_DB} \
+                       -e POSTGRES_USER=${POSTGRES_USER} \
+                       -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+                       ${POSTGRES_IMAGE}
+                   '''
                         sh 'echo "After database line"'
                 }
             }

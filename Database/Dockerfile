@@ -7,5 +7,5 @@ ENV POSTGRES_DB=mydb
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
 
-# Expose PostgreSQL default ports
+# This one Expose PostgreSQL default port
 EXPOSE 5432
