@@ -2,14 +2,17 @@ pipeline {
     agent any
 
     environment {
-        TOMCAT_WEBAPP_DIR = '/home/rdpuser/Downloads/tomcat/webapps/'
+//         TOMCAT_WEBAPP_DIR = '/home/rdpuser/Downloads/tomcat/webapps/'
         BUILD_TOOL = 'maven' // Only Maven build tool is configured
+        REGISTRY = "localhost:5000"
+        IMAGE_NAME = "webapp-spring"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
-    triggers {
-        // Trigger build on push to GitHub repository
-        githubPush()
-    }
+//     triggers {
+//         // Trigger build on push to GitHub repository
+//         githubPush()
+//     }
 
     stages {
         stage('Checkout') {
@@ -27,25 +30,34 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-                  steps {
-                      script {
-                          // Find the .war file using shell command
-                          def warFile = sh(script: 'find /var/lib/jenkins/workspace/jenkins-webapplive/project/target/ -name "*.war" | head -n 1', returnStdout: true).trim()
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
 
-                          if (warFile) {
-                              // Copy WAR file to Tomcat webapp folder
-                              sh """
-                                 sudo cp ${warFile} ${env.TOMCAT_WEBAPP_DIR}
-                              """
-                              echo "Deployed WAR file: ${warFile}"
-                          } else {
-                              error "No WAR file found"
-                          }
-                      }
-                  }
-              }
-          }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry("http://${REGISTRY}") {
+                        docker.image("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+
+        stage('Deploy Docker Container') {
+            steps {
+                script {
+                    sh 'docker stop springboot-app || true'
+                    sh 'docker rm springboot-app || true'
+                    sh 'docker run -d -p 8081:8081 --name springboot-app ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
+                }
+            }
+        }
+    }
 
     post {
         success {

@@ -11,20 +11,20 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import java.util.Set;
 import java.util.logging.Logger;
 
-@SpringBootApplication
-public class ProjectApplication extends SpringBootServletInitializer {
-
 //@SpringBootApplication
-//public class ProjectApplication {
+//public class ProjectApplication extends SpringBootServletInitializer {
+
+@SpringBootApplication
+public class ProjectApplication {
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(ProjectApplication.class, args);
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(ProjectApplication.class);
-	}
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(ProjectApplication.class);
+//	}
 
 }
