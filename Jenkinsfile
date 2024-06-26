@@ -70,6 +70,7 @@ pipeline {
 //                   }
                    sh '''
                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
+                       --network spring-postgres \
                        -e POSTGRES_DB=${POSTGRES_DB} \
                        -e POSTGRES_USER=${POSTGRES_USER} \
                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
@@ -136,11 +137,10 @@ pipeline {
                     sh 'docker rm springboot-app || true'
                     sh "docker rmi -f ${REGISTRY}/${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
                     sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
+                    --network spring-postgres \
                     -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
                     -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
                     -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
-                    -e spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect \
-                    --link ${POSTGRES_CONTAINER}:postgres \
                     ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
                 }
             }
