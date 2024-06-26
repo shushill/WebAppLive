@@ -25,7 +25,7 @@ pipeline {
 
         stage('Just checking') {
             when {
-                changeset "./Scripts/"
+                changeset "Scripts/*"
             }
             steps {
                 script {
