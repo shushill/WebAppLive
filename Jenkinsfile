@@ -40,6 +40,24 @@ pipeline {
             }
         }
 
+         stage('Delete Old Images') {
+            steps {
+                script {
+                    // Remove old images (tags) from the registry
+                    sh """
+                    # Get list of all tags
+                    TAGS=$(curl -s http://${REGISTRY}/v2/${IMAGE_NAME}/tags/list | jq -r '.tags[]')
+                    # Delete all tags except the current build tag
+                    for TAG in $TAGS; do
+                        if [ "$TAG" != "${IMAGE_TAG}" ]; then
+                            curl -X DELETE http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$(curl -s -I -H "Accept: application/vnd.docker.distribution.manifest.v2+json" http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$TAG | awk '$1 == "Docker-Content-Digest:" { print $2 }' | tr -d $'\\r')
+                        fi
+                    done
+                    """
+                }
+            }
+        }
+
         stage('Push Docker Image') {
             steps {
                 script {
