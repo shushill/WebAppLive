@@ -33,7 +33,9 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
+                     dir('project/') {
+                        docker.build("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
+                    }
                 }
             }
         }
