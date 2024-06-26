@@ -61,10 +61,10 @@ pipeline {
                    sh "docker rm ${POSTGRES_CONTAINER} || true"
 
                    // Remove the previous image if it exists
-                   def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || echo 'no'", returnStdout: true).trim()
-                  if (imageExists != 'no') {
-                      sh "docker rmi ${POSTGRES_IMAGE} -f"
-                  }
+//                    def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || echo 'no'", returnStdout: true).trim()
+//                   if (imageExists != 'no') {
+//                       sh "docker rmi ${POSTGRES_IMAGE} -f"
+//                   }
                    sh '''
                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
                        -e POSTGRES_DB=${POSTGRES_DB} \
