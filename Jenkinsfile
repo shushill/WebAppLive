@@ -7,6 +7,11 @@ pipeline {
         REGISTRY = "localhost:5000"
         IMAGE_NAME = "webapp-spring"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+       POSTGRES_IMAGE = 'custom-postgres'
+       POSTGRES_CONTAINER = 'postgres-container'
+       POSTGRES_DB='mydb'
+       POSTGRES_USER='postgres'
+       POSTGRES_PASSWORD='postgres'
         CONTAINER_NAME = "springboot-app"
          PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER.toInteger() - 1}"
     }
@@ -31,6 +36,28 @@ pipeline {
                 script {
                     // Commands to build and deploy App 1
                     sh 'echo "This is working"'
+                }
+            }
+        }
+
+         stage('Database') {
+            when {
+                changeset "Database/*"
+            }
+            steps {
+                script {
+                    dir('Database') {
+//                        docker.build("${POSTGRES_IMAGE}", ".")
+                            sh 'echo "Database folder"'
+                   }
+//                    sh '''
+//                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
+//                        -e POSTGRES_DB=${POSTGRES_DB} \
+//                        -e POSTGRES_USER=${POSTGRES_USER} \
+//                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+//                        ${POSTGRES_IMAGE}
+//                    '''
+                        sh 'echo "After database line"'
                 }
             }
         }
