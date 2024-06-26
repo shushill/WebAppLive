@@ -7,6 +7,8 @@ pipeline {
         REGISTRY = "localhost:5000"
         IMAGE_NAME = "webapp-spring"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+        CONTAINER_NAME = "springboot-app"
+        PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER - 1}"
     }
 
 //     triggers {
@@ -73,7 +75,8 @@ pipeline {
                 script {
                     sh 'docker stop springboot-app || true'
                     sh 'docker rm springboot-app || true'
-                    sh 'docker run -d -p 8081:8081 --name springboot-app ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
+                    sh "docker rmi ${REGISTRY}/${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
+                    sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
                 }
             }
         }
