@@ -51,19 +51,19 @@ pipeline {
                        docker.build("${POSTGRES_IMAGE}", ".")
 
                    }
-                    def volumeExists = sh(script: "docker volume ls -q | grep ${POSTGRES_VOLUME} || true", returnStdout: true).trim()
-                   if (!volumeExists) {
-                       sh "docker volume create ${POSTGRES_VOLUME}"
-                   }
+                     def volumeExists = sh(script: "docker volume inspect ${POSTGRES_VOLUME} > /dev/null 2>&1 || echo 'no'", returnStdout: true).trim()
+                    if (volumeExists == 'no') {
+                        sh "docker volume create ${POSTGRES_VOLUME}"
+                    }
                      // Stop and remove the previous container if it exists
                    sh "docker stop ${POSTGRES_CONTAINER} || true"
                    sh "docker rm ${POSTGRES_CONTAINER} || true"
 
                    // Remove the previous image if it exists
-                   def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || true", returnStdout: true).trim()
-                   if (imageExists) {
-                       sh "docker rmi ${POSTGRES_IMAGE} -f || true"
-                   }
+                   def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || echo 'no'", returnStdout: true).trim()
+                  if (imageExists != 'no') {
+                      sh "docker rmi ${POSTGRES_IMAGE} -f"
+                  }
                    sh '''
                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
                        -e POSTGRES_DB=${POSTGRES_DB} \
