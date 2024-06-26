@@ -1,6 +1,5 @@
 package com.sushil.project;
 
-import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
