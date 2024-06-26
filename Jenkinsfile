@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = "webapp-spring"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         CONTAINER_NAME = "springboot-app"
-        PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER - 1}"
+         PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER.toInteger() - 1}"
     }
 
 //     triggers {
