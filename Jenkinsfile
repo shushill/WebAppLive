@@ -3,7 +3,7 @@ pipeline {
 
     environment {
 //         TOMCAT_WEBAPP_DIR = '/home/rdpuser/Downloads/tomcat/webapps/'
-        BUILD_TOOL = 'maven' // Only Maven build tool is configured
+        BUILD_TOOL = 'maven'
         REGISTRY = "localhost:5000"
         IMAGE_NAME = "webapp-spring"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
@@ -51,11 +51,25 @@ pipeline {
                        docker.build("${POSTGRES_IMAGE}", ".")
 
                    }
+                    def volumeExists = sh(script: "docker volume ls -q | grep ${POSTGRES_VOLUME} || true", returnStdout: true).trim()
+                   if (!volumeExists) {
+                       sh "docker volume create ${POSTGRES_VOLUME}"
+                   }
+                     // Stop and remove the previous container if it exists
+                   sh "docker stop ${POSTGRES_CONTAINER} || true"
+                   sh "docker rm ${POSTGRES_CONTAINER} || true"
+
+                   // Remove the previous image if it exists
+                   def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || true", returnStdout: true).trim()
+                   if (imageExists) {
+                       sh "docker rmi ${POSTGRES_IMAGE} -f || true"
+                   }
                    sh '''
                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
                        -e POSTGRES_DB=${POSTGRES_DB} \
                        -e POSTGRES_USER=${POSTGRES_USER} \
                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+                       -v postgres-data:/var/lib/postgresql/data \
                        ${POSTGRES_IMAGE}
                    '''
                         sh 'echo "After database line"'
