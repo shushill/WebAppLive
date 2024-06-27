@@ -14,7 +14,7 @@ pipeline {
        POSTGRES_PASSWORD='postgres'
        POSTGRES_VOLUME = 'postgres-data'
         CONTAINER_NAME = 'springboot-app'
-        SPRING_DATASOURCE_URL = 'jdbc:postgresql://postgres-container:5432/mydb'
+        SPRING_DATASOURCE_URL = 'jdbc:postgresql://postgres_container:5432/mydb'
         SPRING_DATASOURCE_USERNAME = 'postgres'
         SPRING_DATASOURCE_PASSWORD = 'postgres'
          PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER.toInteger() - 1}"
@@ -138,6 +138,9 @@ pipeline {
                     sh "docker rmi -f ${REGISTRY}/${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
                     sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
                     --network spring-postgres \
+                    -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
+                    -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
+                    -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
                     ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
                 }
             }
