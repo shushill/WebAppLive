@@ -2,16 +2,16 @@ version: '3.8'
 
 services:
   app:
-    image: ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
-    container_name: ${CONTAINER_NAME}
+    image: custom-postgres
+    container_name: postgres-container
     ports:
       - "8081:8081"
     networks:
       - spring-postgres
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mydb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
 
 networks:
   spring-postgres:

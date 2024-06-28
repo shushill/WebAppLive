@@ -96,59 +96,75 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Remove previous continer and Images') {
             steps {
                 script {
                      dir('project/') {
-                        docker.build("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}")
+                       sh 'docker stop springboot-app || true'
+                       sh 'docker rm springboot-app || true'
+                       //sh 'docker image rmi springboot-app:'
                     }
                 }
             }
         }
 
-         stage('Delete Old Images') {
+         stage('Build Docker Image and Deploy') {
             steps {
                 script {
-                    // Remove old images (tags) from the registry
-                    sh '''
-                    # Get list of all tags
-                    TAGS=$(curl -s http://${REGISTRY}/v2/${IMAGE_NAME}/tags/list | jq -r '.tags[]')
-                    # Delete all tags except the current build tag
-                    for TAG in $TAGS; do
-                        if [ "$TAG" != "${IMAGE_TAG}" ]; then
-                            curl -X DELETE http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$(curl -s -I -H "Accept: application/vnd.docker.distribution.manifest.v2+json" http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$TAG | awk '$1 == "Docker-Content-Digest:" { print $2 }' | tr -d $'\\r')
-                        fi
-                    done
-                    '''
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    docker.withRegistry("http://${REGISTRY}") {
-                        docker.image("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}").push()
+                     dir('project/') {
+                       sh 'docker-compose -f ${COMPOSE_FILE} down || true'
+                       sh 'docker-compose -f ${COMPOSE_FILE} build'
+                       sh 'docker-compose -f ${COMPOSE_FILE} up -d'
                     }
                 }
             }
         }
 
-        stage('Deploy Docker Container') {
-            steps {
-                script {
-                    sh 'docker stop springboot-app || true'
-                    sh 'docker rm springboot-app || true'
-                    sh "docker rmi -f ${REGISTRY}/${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
-                    sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
-                    --network spring-postgres \
-                    -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
-                    -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
-                    -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
-                    ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
-                }
-            }
-        }
+
+
+//          stage('Delete Old Images') {
+//             steps {
+//                 script {
+//                     // Remove old images (tags) from the registry
+//                     sh '''
+//                     # Get list of all tags
+//                     TAGS=$(curl -s http://${REGISTRY}/v2/${IMAGE_NAME}/tags/list | jq -r '.tags[]')
+//                     # Delete all tags except the current build tag
+//                     for TAG in $TAGS; do
+//                         if [ "$TAG" != "${IMAGE_TAG}" ]; then
+//                             curl -X DELETE http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$(curl -s -I -H "Accept: application/vnd.docker.distribution.manifest.v2+json" http://${REGISTRY}/v2/${IMAGE_NAME}/manifests/$TAG | awk '$1 == "Docker-Content-Digest:" { print $2 }' | tr -d $'\\r')
+//                         fi
+//                     done
+//                     '''
+//                 }
+//             }
+//         }
+
+//         stage('Push Docker Image') {
+//             steps {
+//                 script {
+//                     docker.withRegistry("http://${REGISTRY}") {
+//                         docker.image("${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}").push()
+//                     }
+//                 }
+//             }
+//         }
+
+//         stage('Deploy Docker Container') {
+//             steps {
+//                 script {
+//                     sh 'docker stop springboot-app || true'
+//                     sh 'docker rm springboot-app || true'
+//                     sh "docker rmi -f ${REGISTRY}/${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
+//                     sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
+//                     --network spring-postgres \
+//                     -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
+//                     -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
+//                     -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
+//                     ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}'
+//                 }
+//             }
+//         }
     }
 
     post {

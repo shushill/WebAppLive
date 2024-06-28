@@ -1,23 +1,14 @@
-# Use a Maven image with Java 17
-FROM maven:3.8.4-openjdk-17-slim
+# Use an official JDK runtime as a parent image
+FROM openjdk:17-jdk-slim
 
-# Set the working directory for the Java code
-WORKDIR /usr/src/java-code
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy the entire current directory to the Docker image
-COPY . /usr/src/java-code/
+# Copy the JAR file from the target directory into the container at /app
+COPY target/ROOT.jar /app/ROOT.jar
 
-# Build the Maven project
-RUN mvn package
-
-# Set the working directory for the Java application
-WORKDIR /usr/src/java-app
-
-# Copy the packaged JAR file to the app directory
-RUN cp /usr/src/java-code/target/*.jar ./app.jar
-
-# Expose port 8080 to the outside world
+# Make port 8080 available to the world outside this container
 EXPOSE 8081
 
-# Command to run the Java application
-CMD ["java", "-jar", "app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "ROOT.jar"]
