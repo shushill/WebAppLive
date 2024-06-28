@@ -17,4 +17,4 @@ services:
 
 networks:
   spring-postgres:
-    external: true
+    name: spring-postgres
