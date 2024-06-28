@@ -15,6 +15,8 @@ pipeline {
        POSTGRES_PASSWORD='postgres'
        POSTGRES_VOLUME = 'postgres-data'
         CONTAINER_NAME = 'springboot-app'
+         SPRINGBOOT_IMAGE_NAME = 'springboot-image'
+         SPRINGBOOT_IMAGE_TAG = '${env.BUILD_NUMBER}'
         SPRING_DATASOURCE_URL = 'jdbc:postgresql://localhost:5432/mydb'
         SPRING_DATASOURCE_USERNAME = 'postgres'
         SPRING_DATASOURCE_PASSWORD = 'postgres'
@@ -96,25 +98,23 @@ pipeline {
             }
         }
 
-//         stage('Remove previous continer and Images') {
-//             steps {
-//                 script {
-//                      dir('project/') {
-//                        sh 'docker stop springboot-app || true'
-//                        sh 'docker rm springboot-app || true'
-//                        //sh 'docker image rmi springboot-app:'
-//                     }
-//                 }
-//             }
-//         }
+        stage('Remove previous continer and Images') {
+            steps {
+                script {
+                       sh 'docker stop {CONTAINER_NAME} || true'
+                       sh 'docker rm {CONTAINER_NAME} || true'
+                       sh 'docker image rmi {CONTAINER_NAME}:{PREVIOUS_IMAGE_TAG} || true'
+                }
+            }
+        }
 
          stage('Build Docker Image and Deploy') {
             steps {
                 script {
                      dir('project/') {
-                       sh 'docker-compose -f ${COMPOSE_FILE} down || true'
-                       sh 'docker-compose -f ${COMPOSE_FILE} build'
-                       sh 'docker-compose -f ${COMPOSE_FILE} up -d'
+                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} down || true'
+                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} build'
+                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} up -d'
                     }
                 }
             }
