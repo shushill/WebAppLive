@@ -1,9 +1,6 @@
 # Use an official JDK runtime as a parent image
 FROM openjdk:17-jdk-slim
 
-ARG SPRINGBOOT_IMAGE_NAME=springboot-image
-ARG SPRINGBOOT_IMAGE_TAG=latest
-
 # Set the working directory to /app
 WORKDIR /app
 

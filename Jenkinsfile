@@ -112,13 +112,13 @@ pipeline {
             steps {
                 script {
                      dir('project') {
-                      sh "docker-compose -f ${COMPOSE_FILE} down || true"
+                      sh "docker-compose down || true"
 
                       // Build the Docker image with custom name and tag
-                      sh "docker-compose -f ${COMPOSE_FILE} build --build-arg SPRINGBOOT_IMAGE_NAME=${env.SPRINGBOOT_IMAGE_NAME} --build-arg SPRINGBOOT_IMAGE_TAG=${env.SPRINGBOOT_IMAGE_TAG}"
+                      sh "docker-compose  build --build-arg SPRINGBOOT_IMAGE_NAME=${env.SPRINGBOOT_IMAGE_NAME} --build-arg SPRINGBOOT_IMAGE_TAG=${env.SPRINGBOOT_IMAGE_TAG}"
 
                       // Start the services
-                      sh "docker-compose -f ${COMPOSE_FILE} up -d"
+                      sh "docker-compose up -d"
                    }
                 }
             }
