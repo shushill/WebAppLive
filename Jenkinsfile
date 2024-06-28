@@ -98,15 +98,15 @@ pipeline {
             }
         }
 
-        stage('Remove previous continer and Images') {
-            steps {
-                script {
-                       sh 'docker stop {CONTAINER_NAME} || true'
-                       sh 'docker rm {CONTAINER_NAME} || true'
-                       sh 'docker image rmi {CONTAINER_NAME}:{PREVIOUS_IMAGE_TAG} || true'
-                }
-            }
-        }
+//         stage('Remove previous continer and Images') {
+//             steps {
+//                 script {
+//                        sh 'docker stop {CONTAINER_NAME} || true'
+//                        sh 'docker rm {CONTAINER_NAME} || true'
+//                        sh 'docker image rmi {CONTAINER_NAME}:{PREVIOUS_IMAGE_TAG} || true'
+//                 }
+//             }
+//         }
 
          stage('Build Docker Image and Deploy') {
             steps {
