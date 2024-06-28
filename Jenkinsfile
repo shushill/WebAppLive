@@ -116,7 +116,7 @@ pipeline {
                        sh "docker-compose -f ${COMPOSE_FILE} down || true"
 
                        // Build the Docker image with custom name and tag
-                       sh "SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} up --build -d"
+                       sh "SPRINGBOOT_IMAGE_NAME=${env.SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${env.SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} up --build -d"
                    }
                 }
             }
