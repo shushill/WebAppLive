@@ -53,6 +53,7 @@ pipeline {
                 script {
                     dir('Database') {
                       sh 'echo "Database folder"'
+
                        sh 'docker-compose -f ${COMPOSE_FILE} down'
                       sh 'docker-compose -f ${COMPOSE_FILE} build'
                       sh 'docker-compose -f ${COMPOSE_FILE} up -d'
