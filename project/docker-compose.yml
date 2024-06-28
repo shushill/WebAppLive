@@ -2,8 +2,10 @@ version: '3.8'
 
 services:
   app:
-    image: custom-postgres
-    container_name: postgres-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-app
     ports:
       - "8081:8081"
     networks:

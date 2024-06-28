@@ -96,17 +96,17 @@ pipeline {
             }
         }
 
-        stage('Remove previous continer and Images') {
-            steps {
-                script {
-                     dir('project/') {
-                       sh 'docker stop springboot-app || true'
-                       sh 'docker rm springboot-app || true'
-                       //sh 'docker image rmi springboot-app:'
-                    }
-                }
-            }
-        }
+//         stage('Remove previous continer and Images') {
+//             steps {
+//                 script {
+//                      dir('project/') {
+//                        sh 'docker stop springboot-app || true'
+//                        sh 'docker rm springboot-app || true'
+//                        //sh 'docker image rmi springboot-app:'
+//                     }
+//                 }
+//             }
+//         }
 
          stage('Build Docker Image and Deploy') {
             steps {
