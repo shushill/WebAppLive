@@ -56,6 +56,10 @@ pipeline {
                     dir('Database') {
                       sh 'echo "Database folder"'
 
+                      sh 'docker volume create postgres-data || true'
+                      sh 'docker volume create pgadmin-data || true'
+                      sh 'docker network create spring-postgres || true'
+
                        sh 'docker-compose -f ${COMPOSE_FILE} down'
                       sh 'docker-compose -f ${COMPOSE_FILE} build'
                       sh 'docker-compose -f ${COMPOSE_FILE} up -d'
