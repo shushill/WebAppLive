@@ -108,17 +108,21 @@ pipeline {
 //             }
 //         }
 
-         stage('Build Docker Image and Deploy') {
+         stage('Build Docker Image') {
             steps {
                 script {
                      dir('project') {
-                      sh "docker-compose down || true"
-
-                      // Build the Docker image with custom name and tag
-                      sh "docker-compose  build --build-arg SPRINGBOOT_IMAGE_NAME=${env.SPRINGBOOT_IMAGE_NAME} --build-arg SPRINGBOOT_IMAGE_TAG=${env.SPRINGBOOT_IMAGE_TAG}"
-
+                       sh "docker stop ${CONTAINER_NAME} || true"
+                       sh "docker rm ${CONTAINER_NAME} || true"
+                       sh "docker rmi -f ${IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
+                     sh "docker build -t ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG} ."
+                      sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
+                          --network spring-postgres \
+                          -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
+                          -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
+                          -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
+                          ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG}'
                       // Start the services
-                      sh "docker-compose up -d"
                    }
                 }
             }
