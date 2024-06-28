@@ -34,7 +34,10 @@ services:
 
 networks:
   spring-postgres:
+    name: spring-postgres
 
 volumes:
   postgres-data:
+    name: postgres-data
   pgadmin-data:
+    name: pgadmin-data

@@ -88,7 +88,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Jar file') {
 
             steps {
                 dir('project') {
@@ -98,17 +98,7 @@ pipeline {
             }
         }
 
-//         stage('Remove previous continer and Images') {
-//             steps {
-//                 script {
-//                        sh 'docker stop {CONTAINER_NAME} || true'
-//                        sh 'docker rm {CONTAINER_NAME} || true'
-//                        sh 'docker image rmi {CONTAINER_NAME}:{PREVIOUS_IMAGE_TAG} || true'
-//                 }
-//             }
-//         }
-
-         stage('Build Docker Image') {
+         stage('Build Docker Image and Run') {
             steps {
                 script {
                      dir('project') {
@@ -122,7 +112,6 @@ pipeline {
                           -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
                           -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
                           ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG}'
-                      // Start the services
                    }
                 }
             }
