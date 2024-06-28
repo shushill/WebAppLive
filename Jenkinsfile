@@ -112,9 +112,9 @@ pipeline {
             steps {
                 script {
                      dir('project/') {
-                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} down || true'
-                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} build'
-                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} up -d'
+                       sh 'docker-compose -f ${COMPOSE_FILE} down || true'
+
+                       sh 'SPRINGBOOT_IMAGE_NAME=${SPRINGBOOT_IMAGE_NAME} SPRINGBOOT_IMAGE_TAG=${SPRINGBOOT_IMAGE_TAG} docker-compose -f ${COMPOSE_FILE} up --build -d'
                     }
                 }
             }

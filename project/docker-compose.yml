@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: ${SPRINGBOOT_IMAGE_NAME:-springboot-app}:${SPRINGBOOT_IMAGE_TAG:-latest}
     container_name: springboot-app
     ports:
       - "8081:8081"
