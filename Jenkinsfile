@@ -4,6 +4,7 @@ pipeline {
     environment {
 //         TOMCAT_WEBAPP_DIR = '/home/rdpuser/Downloads/tomcat/webapps/'
         BUILD_TOOL = 'maven'
+        COMPOSE_FILE = 'docker-compose.yml'
         REGISTRY = "localhost:5000"
         IMAGE_NAME = "webapp-spring"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
@@ -52,31 +53,33 @@ pipeline {
                 script {
                     dir('Database') {
                       sh 'echo "Database folder"'
-                       docker.build("${POSTGRES_IMAGE}", ".")
+                       sh 'docker-compose -f ${COMPOSE_FILE} down'
+                      sh 'docker-compose -f ${COMPOSE_FILE} build'
+                      sh 'docker-compose -f ${COMPOSE_FILE} up -d'
 
                    }
-                     def volumeExists = sh(script: "docker volume inspect ${POSTGRES_VOLUME} > /dev/null 2>&1 || echo 'no'", returnStdout: true).trim()
-                    if (volumeExists == 'no') {
-                        sh "docker volume create ${POSTGRES_VOLUME}"
-                    }
-                     // Stop and remove the previous container if it exists
-                   sh "docker stop ${POSTGRES_CONTAINER} || true"
-                   sh "docker rm ${POSTGRES_CONTAINER} || true"
-
-                   // Remove the previous image if it exists
-//                    def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || echo 'no'", returnStdout: true).trim()
-//                   if (imageExists != 'no') {
-//                       sh "docker rmi ${POSTGRES_IMAGE} -f"
-//                   }
-                   sh '''
-                       docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
-                       --network spring-postgres \
-                       -e POSTGRES_DB=${POSTGRES_DB} \
-                       -e POSTGRES_USER=${POSTGRES_USER} \
-                       -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
-                       -v postgres-data:/var/lib/postgresql/data \
-                       ${POSTGRES_IMAGE}
-                   '''
+//                      def volumeExists = sh(script: "docker volume inspect ${POSTGRES_VOLUME} > /dev/null 2>&1 || echo 'no'", returnStdout: true).trim()
+//                     if (volumeExists == 'no') {
+//                         sh "docker volume create ${POSTGRES_VOLUME}"
+//                     }
+//                      // Stop and remove the previous container if it exists
+//                    sh "docker stop ${POSTGRES_CONTAINER} || true"
+//                    sh "docker rm ${POSTGRES_CONTAINER} || true"
+//
+//                    // Remove the previous image if it exists
+// //                    def imageExists = sh(script: "docker images -q ${POSTGRES_IMAGE} || echo 'no'", returnStdout: true).trim()
+// //                   if (imageExists != 'no') {
+// //                       sh "docker rmi ${POSTGRES_IMAGE} -f"
+// //                   }
+//                    sh '''
+//                        docker run -d --name ${POSTGRES_CONTAINER} -p 5432:5432 \
+//                        --network spring-postgres \
+//                        -e POSTGRES_DB=${POSTGRES_DB} \
+//                        -e POSTGRES_USER=${POSTGRES_USER} \
+//                        -e POSTGRES_PASSWORD=${POSTGRES_PASSWORD} \
+//                        -v postgres-data:/var/lib/postgresql/data \
+//                        ${POSTGRES_IMAGE}
+//                    '''
                         sh 'echo "After database line"'
                 }
             }

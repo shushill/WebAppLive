@@ -1,13 +1,13 @@
-package com.sushil.project.controller;
+package com.sushil.project.auth.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-public class projectController {
+public class AuthController {
+
+
 
     @GetMapping("/")
     public String login(Model model) {
