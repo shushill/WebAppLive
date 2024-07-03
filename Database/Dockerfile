@@ -2,7 +2,7 @@
 
 FROM postgres:latest
 
-# Environment variables
+# Environment variabless
 ENV POSTGRES_DB=mydb
 ENV POSTGRES_USER=postgres
 ENV POSTGRES_PASSWORD=postgres
