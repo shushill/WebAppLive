@@ -1,23 +1,23 @@
-version: '3.9'
-
-services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        SPRINGBOOT_IMAGE_NAME: ${SPRINGBOOT_IMAGE_NAME:-springboot-image}
-        SPRINGBOOT_IMAGE_TAG: ${SPRINGBOOT_IMAGE_TAG:-latest}
-    container_name: springboot-app
-    ports:
-      - "8081:8081"
-    networks:
-      - spring-postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mydb
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-
-networks:
-  spring-postgres:
-    name: spring-postgres
+#version: '3.9'
+#
+#services:
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#      args:
+#        SPRINGBOOT_IMAGE_NAME: ${SPRINGBOOT_IMAGE_NAME:-springboot-image}
+#        SPRINGBOOT_IMAGE_TAG: ${SPRINGBOOT_IMAGE_TAG:-latest}
+#    container_name: springboot-app
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - spring-postgres
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mydb
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: postgres
+#
+#networks:
+#  spring-postgres:
+#    name: spring-postgres
