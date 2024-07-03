@@ -110,6 +110,7 @@ pipeline {
                        sh "docker rm ${CONTAINER_NAME} || true"
                        sh "docker rmi -f ${SPRINGBOOT_IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
                      sh "docker build -t ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG} ."
+                     sh 'docker network create spring-postgres || true'
                       sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
                           --network spring-postgres \
                           -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
