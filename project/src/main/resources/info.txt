@@ -4,16 +4,19 @@ server.port=8081
 
 env.BUILD_NUMBER=1.0.0
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+
+
+
+spring.datasource.url=jdbc:postgresql://postgres:5432/mydb
 spring.datasource.username=postgres
 spring.datasource.password=postgres
 
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.jpa.hibernate.ddl-auto=update
 
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.transaction.coordinator_class=jdbc
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+spring.jpa.hibernate.ddl-auto=create
+spring.datasource.driver-class-name=org.postgresql.Driver
+
 #logging.level.org.hibernate=ERROR
 
 logging.level.root=info
