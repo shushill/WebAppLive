@@ -45,18 +45,18 @@ public class SecurityConfig {
     }
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//       return http
-//               .csrf(csrf -> csrf.disable())
-//               .authorizeHttpRequests(
-//                       auth -> auth
-//                               .requestMatchers("/favicon.*", "/js/*", "/css/*", "/error", "/", "/register").permitAll()
-//                               .anyRequest().authenticated()
-//               )
-//               .logout(l -> l.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
-//               .httpBasic().disable()
-//               .build();
-//    }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+       return http
+               .csrf(csrf -> csrf.disable())
+               .authorizeHttpRequests(
+                       auth -> auth
+                               .requestMatchers("/favicon.*", "/js/*", "/css/*", "/error", "/", "/register").permitAll()
+                               .anyRequest().authenticated()
+               )
+               .logout(l -> l.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll())
+               .httpBasic().disable()
+               .build();
+    }
 
 }
