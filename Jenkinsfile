@@ -17,7 +17,7 @@ pipeline {
         CONTAINER_NAME = 'springboot-app'
          SPRINGBOOT_IMAGE_NAME = "springboot-image"
          SPRINGBOOT_IMAGE_TAG = "${env.BUILD_NUMBER}"
-        SPRING_DATASOURCE_URL = 'jdbc:postgresql://localhost:5432/mydb'
+        SPRING_DATASOURCE_URL = 'jdbc:postgresql://postgres_container:5432/mydb'
         SPRING_DATASOURCE_USERNAME = 'postgres'
         SPRING_DATASOURCE_PASSWORD = 'postgres'
          PREVIOUS_IMAGE_TAG = "${env.BUILD_NUMBER.toInteger() - 1}"
