@@ -45,7 +45,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
         document.getElementById('response').innerHTML = `
-            <p>Status: Error</p>
+            <p><------Status: ERROR-----></p>
             <p>${error.message}</p>
         `;
         document.getElementById('response').className = 'alert alert-danger';

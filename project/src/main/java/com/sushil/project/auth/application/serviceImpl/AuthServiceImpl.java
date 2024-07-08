@@ -67,11 +67,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean registerDto(RegisterDto registerDto){
 
-//        Optional<User> userByUsername = userRepo.findByUsername(registerDto.getUsername());
+        Optional<User> userByUsername = userRepo.findByUsername(registerDto.getUsername());
 
-//        if (userByUsername.isPresent()) {
-//            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Username already exists");
-//        }
+        if (userByUsername.isPresent()) {
+            throw new LoginFailedException("User is already taken.\n Please choose different username.");
+        }
 //
 //        Optional<User> userByEmail = userRepo.findByEmail(registerDto.getEmail());
 //

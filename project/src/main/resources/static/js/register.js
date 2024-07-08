@@ -42,7 +42,7 @@
                 return;
             } else {
                 document.getElementById('response').innerHTML = `
-                   <p>false line one</p>
+                   <p>Error detected.</p>
                    <p>Error: ${data.data}</p>
                `;
                document.getElementById('response').className = 'alert alert-danger';
@@ -53,7 +53,6 @@
                console.error('There was a problem with the fetch operation:', error);
                 document.getElementById('response').innerHTML = `
                     <p>Status: Error</p>
-                    <p> this is error line </p>
                     <p>Error: ${error.message}</p>
                 `;
                 document.getElementById('response').className = 'alert alert-danger';
