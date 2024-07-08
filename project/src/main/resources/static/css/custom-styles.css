@@ -42,3 +42,24 @@ h2 {
     color: #0056b3;
     text-decoration: underline;
 }
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer b {
+    color: black; /* Yellow color for <b> tag */
+}

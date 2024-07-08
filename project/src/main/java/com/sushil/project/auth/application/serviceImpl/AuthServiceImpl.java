@@ -5,15 +5,22 @@ import com.sushil.project.auth.domain.entity.Roles;
 import com.sushil.project.auth.domain.entity.User;
 import com.sushil.project.auth.domain.repository.RolesRepo;
 import com.sushil.project.auth.domain.repository.UserRepo;
+import com.sushil.project.auth.exception.LoginFailedException;
 import com.sushil.project.auth.web.dto.LoginDto;
 import com.sushil.project.auth.web.dto.RegisterDto;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +33,8 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
 
     private AuthenticationManager authenticationManager;
+
+    private UserDetailsService userDetailsService;
     private UserRepo userRepo;
     private RolesRepo rolesRepo;
 
@@ -33,25 +42,30 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthServiceImpl(AuthenticationManager authenticationManager, UserRepo userRepo,
                            RolesRepo rolesRepo,
-                           PasswordEncoder passwordEncoder){
+                           PasswordEncoder passwordEncoder, UserDetailsService userDetailsService){
         this.authenticationManager = authenticationManager;
         this.userRepo = userRepo;
         this.rolesRepo = rolesRepo;
         this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
-    public String loginDto(LoginDto loginDto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(), loginDto.getPassword()
-        ));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    public void loginDto(LoginDto loginDto){
+//        User user = userRepo.findByUsername(loginDto.getUsernameOrEmail());
+//
+//
+//            Authentication token = new UsernamePasswordAuthenticationToken(
+//                    user.getUsername(), loginDto.getPassword()
+//            );
+//            authenticationManager.authenticate(token);
+//
+//            return token;
 
-        return "User logged in Successfully";
     }
 
     @Override
-    public String registerDto(RegisterDto registerDto){
+    public boolean registerDto(RegisterDto registerDto){
 
 //        Optional<User> userByUsername = userRepo.findByUsername(registerDto.getUsername());
 
@@ -89,11 +103,21 @@ public class AuthServiceImpl implements AuthService {
             roles.add(roles1);
         }
         user.setRoles(roles);
-        userRepo.save(user);
+        User newUser = userRepo.save(user);
 
+//        Authentication token = new UsernamePasswordAuthenticationToken(
+//                registerDto.getUsername(), registerDto.getPassword()
+//        );
+//        Authentication auth = authenticationManager.authenticate(token);
+//
+//        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+//        securityContext.setAuthentication(auth);
+//        SecurityContextHolder.setContext(securityContext);
+
+       // return token;
 
        // return ans;
-        return "User registered successfully";
+        return true;
 
     }
 }
