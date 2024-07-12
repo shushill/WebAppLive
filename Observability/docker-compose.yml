@@ -1,11 +1,6 @@
 version: '3.7'
 
 
-networks:
-  monitoring:
-    external: true
-
-
 services:
   prometheus:
     image: prom/prometheus
@@ -29,6 +24,11 @@ services:
       - prometheus
     volumes:
       - grafana-storage:/var/lib/grafana
+
+
+networks:
+  spring-postgres:
+    name: spring-postgres
 
 
 volumes:
