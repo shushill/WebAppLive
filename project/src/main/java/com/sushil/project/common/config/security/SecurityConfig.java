@@ -81,6 +81,7 @@ public class SecurityConfig {
                .csrf(csrf -> csrf.disable())
                .authorizeHttpRequests(
                        auth -> auth
+                               .requestMatchers("/actuator/*").permitAll()
                                .requestMatchers("/favicon.*", "/js/*", "/css/*", "/error", "/register", "/", "/login_req").permitAll()
                                .anyRequest().authenticated()
                )
