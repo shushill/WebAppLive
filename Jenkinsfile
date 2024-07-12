@@ -111,7 +111,7 @@ pipeline {
                     dir('Observability'){
                         sh 'docker volume create prometheus-data || true'
                         sh 'docker volume create grafana-data || true'
-                         sh 'docker-compose -f ${COMPOSE_FILE} down'
+                         //sh 'docker-compose -f ${COMPOSE_FILE} down'
                          sh 'docker-compose -f ${COMPOSE_FILE} build'
                          sh 'docker-compose -f ${COMPOSE_FILE} up -d'
                     }
