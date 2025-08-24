@@ -33,8 +33,7 @@ services:
 
 networks:
   spring-postgres:
-    name: spring-postgres
-      external: true
+    external: true
 
 volumes:
   postgres-data:
