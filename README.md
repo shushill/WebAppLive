@@ -15,7 +15,7 @@ This project demonstrates a modern web application built with a **microservice a
 
 - 🔒 **Database Authentication**
   - Integrated Spring Security for robust user verification
-  - Relational database (MySQL/PostgreSQL) as authentication backend
+  - Relational database (PostgreSQL) as authentication backend
 
 - 🐳 **Microservice Architecture using Docker**
   - All services containerized with Docker
@@ -31,6 +31,11 @@ This project demonstrates a modern web application built with a **microservice a
 - 📊 **Monitoring with Prometheus & Grafana**
   - Real-time application metrics and dashboards
   - Alerts and performance tracking
+
+- ☁️ **Production Ready**  
+  - Hosted on a Linux VPS
+  - NGINX reverse proxy with HTTPS via Let's Encrypt
+  - 
 
 ---
 
