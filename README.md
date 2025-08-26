@@ -10,7 +10,6 @@ This project demonstrates a modern web application built with a **microservice a
 
 - ✅ **User Registration and Login**
   - Secure signup and login endpoints
-  - JWT-based authentication
   - Passwords encrypted using Spring Security
 
 - 🔒 **Database Authentication**
@@ -35,19 +34,19 @@ This project demonstrates a modern web application built with a **microservice a
 - ☁️ **Production Ready**  
   - Hosted on a Linux VPS
   - NGINX reverse proxy with HTTPS via Let's Encrypt
-  - 
+    
 
 ---
 
 ## 📦 Technologies Used
 
-| Layer             | Tech Stack                          |
-|------------------|--------------------------------------|
-| Backend           | Spring Boot, Spring Security         |
+| Layer             | Tech Stack                           |
+|-------------------|--------------------------------------|
+| Backend           | Java, Spring Boot, Spring Security   |
 | CI/CD             | Jenkins, GitHub                      |
 | Containerization  | Docker, Docker Compose               |
 | Monitoring        | Prometheus, Grafana                  |
-| Auth & Security   | JWT, BCrypt, Spring Security         |
+| Auth & Security   | BCrypt, Spring Security              |
 | Deployment        | Self-hosted on `webappify.store`     |
 
 ---
