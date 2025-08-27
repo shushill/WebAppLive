@@ -48,5 +48,4 @@ This project demonstrates a modern web application built with a **microservice a
 | Monitoring        | Prometheus, Grafana                  |
 | Auth & Security   | BCrypt, Spring Security              |
 | Deployment        | Self-hosted on `webappify.store`     |
-
 ---
