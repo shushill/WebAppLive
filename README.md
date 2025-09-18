@@ -33,7 +33,7 @@ This project demonstrates a modern web application built with a **microservice a
 
 - ☁️ **Production Ready**  
   - Hosted on a Linux VPS
-  - NGINX reverse proxy with HTTPS via Let's Encrypt
+  - NGINX reverse proxy with HTTPS via Let's Encrypt...
     
 
 ---
