@@ -37,6 +37,6 @@ networks:
 
 volumes:
   postgres-data:
-    name: postgres-data
+    external: true
   pgadmin-data:
-    name: pgadmin-data
+    external: true
