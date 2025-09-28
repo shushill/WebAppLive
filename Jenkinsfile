@@ -47,28 +47,45 @@ pipeline {
             }
         }
 
-         stage('Database') {
-            when {
-                changeset "Database/*"
+        //  stage('Database') {
+        //     when {
+        //         changeset "Database/*"
+        //     }
+        //     steps {
+        //         script {
+        //             dir('Database') {
+        //               sh 'echo "Database folder"'
+
+        //               sh 'docker volume create postgres-data || true'
+        //               sh 'docker volume create pgadmin-data || true'
+        //               sh 'docker network create spring-postgres || true'
+
+        //                sh 'docker-compose -f ${COMPOSE_FILE} down'
+        //               sh 'docker-compose -f ${COMPOSE_FILE} build'
+        //               sh 'docker-compose -f ${COMPOSE_FILE} up -d'
+
+        //            }
+        //            sh 'echo "After database line"'
+        //         }
+        //     }
+        // }
+
+        stage('Database') {
+          when {
+            changeset "Database/*"
+          }
+          steps {
+            script {
+              dir('Database') {
+                sh 'echo "Database folder"'
+                // Compose will reuse external volumes and networks automatically
+                sh 'docker-compose -f ${COMPOSE_FILE} pull'
+                sh 'docker-compose -f ${COMPOSE_FILE} up -d'
+              }
             }
-            steps {
-                script {
-                    dir('Database') {
-                      sh 'echo "Database folder"'
-
-                      sh 'docker volume create postgres-data || true'
-                      sh 'docker volume create pgadmin-data || true'
-                      sh 'docker network create spring-postgres || true'
-
-                       sh 'docker-compose -f ${COMPOSE_FILE} down'
-                      sh 'docker-compose -f ${COMPOSE_FILE} build'
-                      sh 'docker-compose -f ${COMPOSE_FILE} up -d'
-
-                   }
-                   sh 'echo "After database line"'
-                }
-            }
+          }
         }
+
 
         stage('Build Jar file') {
 
@@ -80,25 +97,46 @@ pipeline {
             }
         }
 
-         stage('Build Docker Image and Run') {
-            steps {
-                script {
-                     dir('project') {
-                       sh "docker stop ${CONTAINER_NAME} || true"
-                       sh "docker rm ${CONTAINER_NAME} || true"
-                       sh "docker rmi -f ${SPRINGBOOT_IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
-                     sh "docker build -t ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG} ."
-                     sh 'docker network create spring-postgres || true'
-                      sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
-                          --network spring-postgres \
-                          -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
-                          -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
-                          -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
-                          ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG}'
-                   }
-                }
+        //  stage('Build Docker Image and Run') {
+        //     steps {
+        //         script {
+        //              dir('project') {
+        //                sh "docker stop ${CONTAINER_NAME} || true"
+        //                sh "docker rm ${CONTAINER_NAME} || true"
+        //                sh "docker rmi -f ${SPRINGBOOT_IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
+        //              sh "docker build -t ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG} ."
+        //              sh 'docker network create spring-postgres || true'
+        //               sh 'docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
+        //                   --network spring-postgres \
+        //                   -e SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
+        //                   -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
+        //                   -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
+        //                   ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG}'
+        //            }
+        //         }
+        //     }
+        // }
+
+        stage('Build Docker Image and Run') {
+          steps {
+            script {
+              dir('project') {
+                sh "docker stop ${CONTAINER_NAME} || true"
+                sh "docker rm ${CONTAINER_NAME} || true"
+                // only remove old image if it exists
+                sh "docker rmi -f ${SPRINGBOOT_IMAGE_NAME}:${PREVIOUS_IMAGE_TAG} || true"
+                sh "docker build -t ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG} ."
+                sh "docker run -d -p 8081:8081 --name ${CONTAINER_NAME} \
+                  --network spring-postgres \
+                  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb \
+                  -e SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME} \
+                  -e SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD} \
+                  ${SPRINGBOOT_IMAGE_NAME}:${SPRINGBOOT_IMAGE_TAG}"
+              }
             }
+          }
         }
+
 
 
 
