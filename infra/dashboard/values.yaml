@@ -1,31 +1,8 @@
+# dashboard-values.yaml
+
 dashboard:
-  enabled: true
   namespace: kubernetes-dashboard
   ingressHost: dashboard.webappify.store
-
-entryPoints:
-  web:
-    address: ":80"
-  websecure:
-    address: ":443"
-
-# Middleware secret name
-middleware:
-  name: dashboard-auth
-  secretName: dashboard-auth-secret
-
-certificatesResolvers:
-  letsencrypt:
-    acme:
-      email: sushil.bit.cse@gmail.com
-      storage: /data/acme.json
-      httpChallenge:
-        entryPoint: web
-
-# Service settings
-service:
-  name: dashboard-kubernetes-dashboard-web
-  port: 8000
 
 ingress:
   enabled: true
@@ -47,8 +24,6 @@ ingress:
         - dashboard.webappify.store
 
 extraArgs:
-  - --enable-skip-login=true       # Use token login directly
-  - --disable-settings-authorizer  # Optional, disable extra auth
+  - --enable-skip-login=true       # token login only
+  - --disable-settings-authorizer  # optional
   - --namespace=kubernetes-dashboard
-  - --enable-insecure-login=false  # Ensures token login works
-  - --token-ttl=3600
