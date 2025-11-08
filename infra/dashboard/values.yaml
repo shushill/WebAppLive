@@ -1,3 +1,17 @@
 dashboard:
   namespace: kubernetes-dashboard
   ingressHost: dashboard.webappify.store
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: sushil.bit.cse@gmail.com
+      storage: /data/acme.json
+      httpChallenge:
+        entryPoint: web
