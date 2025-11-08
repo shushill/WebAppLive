@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: kubernetes-dashboard
+  name: dashboard-kubernetes-dashboard-web
   namespace: {{ .Values.dashboard.namespace }}
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
@@ -17,9 +17,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kubernetes-dashboard
+                name: dashboard-kubernetes-dashboard-web
                 port:
-                  number: 80
+                  number: 8000
   tls:
     - hosts:
         - {{ .Values.dashboard.ingressHost }}
