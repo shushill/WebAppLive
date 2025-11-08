@@ -1,4 +1,14 @@
 
+basicAuth:
+  enabled: true
+  secretName: dashboard-auth-secret
+  users:
+    - admin:$2y$05$EDkfYS1kOHX2o17rRUq4aecZ/OBXWmLSDusWMxOuCCZqCI/yJ/g.S  # Password: "Password"
+
+extraArgs:
+  - --disable-settings-authorizer
+  - --namespace=kubernetes-dashboard
+
 dashboard:
   namespace: kubernetes-dashboard
   secretName: dashboard-auth-secret
