@@ -13,15 +13,23 @@ spec:
     - host: dashboard.webappify.store
       http:
         paths:
-          # Dashboard API (no basic auth)
-          - path: /api/
+          # API endpoints (no auth)
+          - path: /api
             pathType: Prefix
             backend:
               service:
                 name: dashboard-kubernetes-dashboard-web
                 port:
                   number: 8000
-          # Dashboard web UI (with basic auth)
+          # Static assets (no auth)
+          - path: /static
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard-kubernetes-dashboard-web
+                port:
+                  number: 8000
+          # Web UI (with auth)
           - path: /
             pathType: Prefix
             backend:
