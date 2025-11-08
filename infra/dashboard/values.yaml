@@ -8,6 +8,11 @@ entryPoints:
   websecure:
     address: ":443"
 
+# Middleware secret name
+middleware:
+  name: dashboard-auth
+  secretName: dashboard-auth-secret
+
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -15,3 +20,8 @@ certificatesResolvers:
       storage: /data/acme.json
       httpChallenge:
         entryPoint: web
+
+# Service settings
+service:
+  name: dashboard-kubernetes-dashboard-web
+  port: 8000
