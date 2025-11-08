@@ -10,9 +10,18 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: "{{ .Values.dashboard.namespace }}-dashboard-auth@kubernetescrd"
 spec:
   rules:
-    - host: {{ .Values.dashboard.ingressHost }}
+    - host: dashboard.webappify.store
       http:
         paths:
+          # Dashboard API (no basic auth)
+          - path: /api/
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard-kubernetes-dashboard-web
+                port:
+                  number: 8000
+          # Dashboard web UI (with basic auth)
           - path: /
             pathType: Prefix
             backend:

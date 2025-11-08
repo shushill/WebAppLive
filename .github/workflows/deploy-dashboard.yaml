@@ -4,8 +4,6 @@ on:
   push:
     paths:
       - 'infra/dashboard/**'
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
