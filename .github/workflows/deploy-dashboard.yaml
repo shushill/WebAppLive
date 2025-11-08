@@ -24,7 +24,7 @@ jobs:
           key: ${{ secrets.VM_PRIVATE_KEY }}
           script: |
             # Set K3s kubeconfig path
-            export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+            export KUBECONFIG=/home/github-deploy/.kube/config            
             
             # Create deployment folder if missing
             mkdir -p ~/springboot-k3s-deployment
