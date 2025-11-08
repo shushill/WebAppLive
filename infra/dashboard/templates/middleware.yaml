@@ -1,9 +1,0 @@
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: {{ .Values.dashboard.namespace }}-auth
-  namespace: {{ .Values.dashboard.namespace }}
-spec:
-  basicAuth:
-    secret: {{ .Values.basicAuth.secretName }}
-    removeHeader: true
