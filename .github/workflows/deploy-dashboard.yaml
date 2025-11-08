@@ -5,7 +5,8 @@ on:
     paths:
       - 'infra/dashboard/**'
     branches:
-      - main
+      - master
+    workflow_dispatch:
 
 jobs:
   deploy:
