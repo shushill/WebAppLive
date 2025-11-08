@@ -14,3 +14,11 @@ dashboard:
   secretName: dashboard-auth-secret
   basicAuthPassword: "admin:$2y$05$EDkfYS1kOHX2o17rRUq4aecZ/OBXWmLSDusWMxOuCCZqCI/yJ/g.S"
   ingressHost: dashboard.webappify.store
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: sushil.bit.cse@gmail.com
+      storage: /data/acme.json
+      httpChallenge:
+        entryPoint: web
