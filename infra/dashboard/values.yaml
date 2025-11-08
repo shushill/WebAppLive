@@ -27,7 +27,6 @@ service:
   name: dashboard-kubernetes-dashboard-web
   port: 8000
 
-
 ingress:
   enabled: true
   annotations:
@@ -35,16 +34,21 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+    traefik.ingress.kubernetes.io/router.strip-prefix: "false"
   hosts:
     - host: dashboard.webappify.store
       paths:
         - path: /
+          pathType: Prefix
+        - path: /api
           pathType: Prefix
   tls:
     - hosts:
         - dashboard.webappify.store
 
 extraArgs:
-  - --enable-skip-login=true
-  - --disable-settings-authorizer
+  - --enable-skip-login=true       # Use token login directly
+  - --disable-settings-authorizer  # Optional, disable extra auth
   - --namespace=kubernetes-dashboard
+  - --enable-insecure-login=false  # Ensures token login works
+  - --token-ttl=3600
