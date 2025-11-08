@@ -6,7 +6,3 @@ metadata:
 spec:
   basicAuth:
     secret: dashboard-auth-secret
-    removeHeader: true
-  stripPrefix:
-    prefixes:
-      - "/dashboard"
