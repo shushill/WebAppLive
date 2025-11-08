@@ -1,4 +1,5 @@
 dashboard:
+  enabled: true
   namespace: kubernetes-dashboard
   ingressHost: dashboard.webappify.store
 
@@ -25,3 +26,25 @@ certificatesResolvers:
 service:
   name: dashboard-kubernetes-dashboard-web
   port: 8000
+
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+  hosts:
+    - host: dashboard.webappify.store
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - dashboard.webappify.store
+
+extraArgs:
+  - --enable-skip-login=true
+  - --disable-settings-authorizer
+  - --namespace=kubernetes-dashboard
