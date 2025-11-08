@@ -22,7 +22,6 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_PRIVATE_KEY }}
-          strict_host_key_checking: false
           script: |
             # Set K3s kubeconfig path
             export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
