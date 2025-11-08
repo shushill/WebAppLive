@@ -1,0 +1,3 @@
+dashboard:
+  namespace: kubernetes-dashboard
+  ingressHost: dashboard.webappify.store
