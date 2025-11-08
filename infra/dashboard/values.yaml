@@ -1,29 +1,13 @@
-# dashboard-values.yaml
-
 dashboard:
   namespace: kubernetes-dashboard
   ingressHost: dashboard.webappify.store
 
-ingress:
+basicAuth:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
-    traefik.ingress.kubernetes.io/router.strip-prefix: "false"
-  hosts:
-    - host: dashboard.webappify.store
-      paths:
-        - path: /
-          pathType: Prefix
-        - path: /api
-          pathType: Prefix
-  tls:
-    - hosts:
-        - dashboard.webappify.store
+  secretName: dashboard-auth-secret
+  users:
+    - admin:$2y$05$EDkfYS1kOHX2o17rRUq4aecZ/OBXWmLSDusWMxOuCCZqCI/yJ/g.S  # Password: "Password"
 
 extraArgs:
-  - --enable-skip-login=true       # token login only
-  - --disable-settings-authorizer  # optional
+  - --disable-settings-authorizer
   - --namespace=kubernetes-dashboard
